@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scroll-behavior:smooth}</style>
+<title>Λιθάρι Μεζεδοπωλείο</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: whitewashed wall + Aegean shutter hero, tabbed menu like a chalkboard list, hours with today highlighted, reservation card */
+:root{
+  --bg:#F5F4EF; --surface:#FFFFFF; --ink:#1E2A33; --muted:#5F6B72; --line:#DFDCD2;
+  --sea:#1D5C8C; --sea-soft:#E3EDF5; --olive:#5E6B2F; --olive-soft:#ECEFDD; --clay:#B4552D;
+  --wall:#FBFAF6; --shadow:rgba(30,42,51,.12);
+  --f-display:"Alegreya",Georgia,serif; --f-body:"Alegreya Sans","Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12181D; --surface:#1A232A; --ink:#EDEBE4; --muted:#A3ADB3; --line:#2B363E;
+  --sea:#6FA8D6; --sea-soft:#1A2E3E; --olive:#AEBB72; --olive-soft:#262C18; --clay:#E08A63;
+  --wall:#1F2830; --shadow:rgba(0,0,0,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12181D; --surface:#1A232A; --ink:#EDEBE4; --muted:#A3ADB3; --line:#2B363E;
+  --sea:#6FA8D6; --sea-soft:#1A2E3E; --olive:#AEBB72; --olive-soft:#262C18; --clay:#E08A63;
+  --wall:#1F2830; --shadow:rgba(0,0,0,.4); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1140px;margin-inline:auto;padding-inline:20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+.kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:6px;font-weight:700;text-decoration:none;border:2px solid var(--sea);cursor:pointer;font:inherit;font-weight:700}
+.btn.solid{background:var(--sea);color:#fff}
+.btn.line{color:var(--sea);background:transparent}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:24px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand svg{width:26px;height:26px}
+.top nav{display:flex;gap:22px;margin-left:auto}
+.top nav a{text-decoration:none;color:var(--muted);font-weight:500}
+.top nav a:hover{color:var(--ink)}
+@media (max-width:720px){.top nav{display:none}.top .btn{margin-left:auto;padding:9px 14px}}
+
+.hero{padding-block:56px 64px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-.01em;margin-top:14px}
+.hero h1 i{font-weight:500;color:var(--sea)}
+.hero .lead{font-size:19px;color:var(--muted);max-width:32em;margin-top:18px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:28px;font-size:15px;color:var(--muted)}
+.facts b{color:var(--ink)}
+.art{background:var(--wall);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 50px -30px var(--shadow);overflow:hidden;max-width:100%}
+.art svg{display:block;width:100%;height:auto}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}}
+
+section.block{padding-block:72px}
+.head{margin-bottom:32px;max-width:40em}
+.head h2{font-size:clamp(30px,4vw,44px);margin-top:8px}
+.head p{color:var(--muted);margin-top:10px}
+
+.tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:2px solid var(--line);margin-bottom:8px}
+.tabs button{font:inherit;font-weight:700;background:none;border:0;padding:10px 14px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--sea);border-color:var(--sea)}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.dish{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding-block:18px;border-bottom:1px dashed var(--line)}
+.dish h3{font-size:21px;font-weight:700}
+.dish .price{font-family:var(--f-display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;color:var(--clay)}
+.dish p{grid-column:1/-1;color:var(--muted);font-size:15.5px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-left:8px;vertical-align:3px;background:var(--olive-soft);color:var(--olive)}
+@media (max-width:760px){.menu{grid-template-columns:1fr}}
+
+.band{background:var(--sea);color:#fff}
+.band .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:44px}
+.band h3{font-size:24px;margin-bottom:6px}
+.band p{opacity:.88}
+@media (max-width:760px){.band .wrap{grid-template-columns:1fr}}
+
+.visit{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+.hours{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours td{padding:10px 4px;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right}
+.hours tr.today td{color:var(--sea);font-weight:700}
+.hours tr.today td:first-child::after{content:" · σήμερα";font-weight:500;font-size:14px}
+.addr{margin-top:24px;display:grid;gap:4px;color:var(--muted)}
+.addr b{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px}
+.card h3{font-size:28px}
+.card > p{color:var(--muted);margin-top:6px}
+form.res{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+form.res label{display:grid;gap:5px;font-size:14px;font-weight:700}
+form.res .full{grid-column:1/-1}
+form.res input,form.res select,form.res textarea{font:inherit;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+form.res button{grid-column:1/-1;justify-self:start}
+.msg{grid-column:1/-1;font-weight:700;color:var(--olive)}
+@media (max-width:860px){.visit{grid-template-columns:1fr}}
+@media (max-width:460px){form.res{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg viewBox="0 0 32 32"><ellipse cx="16" cy="18" rx="12" ry="9" fill="var(--sea)"/><path d="M8 15c4-5 12-5 16 0" stroke="var(--wall)" stroke-width="2" fill="none"/></svg>Λιθάρι</a>
+    <nav><a href="#menu">Μενού</a><a href="#about">Η κουζίνα</a><a href="#visit">Επίσκεψη</a></nav>
+    <a class="btn solid" href="#visit">Κράτηση</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Μεζεδοπωλείο · Ναύπλιο · από το 2016</span>
+      <h1>Μεζέδες της ώρας, <i>κρασί από το βαρέλι</i></h1>
+      <p class="lead">Στο πλακόστρωτο της Παλιάς Πόλης μαγειρεύουμε με ό,τι φέρνουν το πρωί οι ψαράδες και οι παραγωγοί της Αργολίδας. Ο κατάλογος αλλάζει με τις εποχές.</p>
+      <div class="ctas"><a class="btn solid" href="#visit">Κλείστε τραπέζι</a><a class="btn line" href="#menu">Δείτε το μενού</a></div>
+      <div class="facts"><span><b>Καθημερινά</b> 12:00–00:30</span><span><b>Αυλή</b> 14 τραπέζια</span><span><b>Τηλ.</b> 27520 00000</span></div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 480 400">
+        <rect width="480" height="400" fill="var(--wall)"/>
+        <g stroke="var(--line)" stroke-width="1.2" fill="none">
+          <path d="M0 80h480M0 170h480M0 260h480M0 350h480"/>
+          <path d="M60 0v80M200 0v80M340 0v80M130 80v90M270 80v90M410 80v90M60 170v90M340 260v90M130 260v90M420 170v90"/>
+        </g>
+        <rect x="150" y="90" width="180" height="210" rx="4" fill="var(--ink)" opacity=".85"/>
+        <rect x="150" y="90" width="88" height="210" fill="var(--sea)"/>
+        <rect x="242" y="90" width="88" height="210" fill="var(--sea)"/>
+        <g stroke="var(--wall)" stroke-width="3" opacity=".55">
+          <path d="M160 110h68M160 125h68M160 140h68M160 155h68M160 170h68M160 185h68M160 200h68M160 215h68M160 230h68M160 245h68M160 260h68M160 275h68"/>
+          <path d="M252 110h68M252 125h68M252 140h68M252 155h68M252 170h68M252 185h68M252 200h68M252 215h68M252 230h68M252 245h68M252 260h68M252 275h68"/>
+        </g>
+        <rect x="138" y="300" width="204" height="12" rx="2" fill="var(--line)"/>
+        <path d="M120 300 C150 250 210 250 240 300" fill="var(--clay)" opacity=".9"/>
+        <path d="M240 300 C270 250 330 250 360 300" fill="var(--clay)" opacity=".75"/>
+        <g fill="var(--olive)">
+          <path d="M20 40 C120 60 200 30 300 50" stroke="var(--olive)" stroke-width="3" fill="none"/>
+          <ellipse cx="60" cy="38" rx="16" ry="5" transform="rotate(-20 60 38)"/>
+          <ellipse cx="90" cy="56" rx="16" ry="5" transform="rotate(25 90 56)"/>
+          <ellipse cx="130" cy="44" rx="16" ry="5" transform="rotate(-15 130 44)"/>
+          <ellipse cx="170" cy="58" rx="16" ry="5" transform="rotate(20 170 58)"/>
+          <ellipse cx="215" cy="40" rx="16" ry="5" transform="rotate(-25 215 40)"/>
+          <ellipse cx="255" cy="58" rx="16" ry="5" transform="rotate(15 255 58)"/>
+        </g>
+        <g fill="var(--ink)" opacity=".75"><circle cx="110" cy="52" r="5"/><circle cx="195" cy="52" r="5"/><circle cx="236" cy="48" r="5"/></g>
+        <rect x="40" y="330" width="60" height="50" rx="6" fill="var(--sea-soft)" stroke="var(--sea)" stroke-width="2"/>
+        <path d="M52 330c0-22 36-22 36 0" fill="var(--olive)"/>
+        <rect x="380" y="330" width="60" height="50" rx="6" fill="var(--sea-soft)" stroke="var(--sea)" stroke-width="2"/>
+        <path d="M392 330c0-22 36-22 36 0" fill="var(--olive)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="menu" style="padding-top:24px">
+  <div class="wrap">
+    <div class="head"><span class="kicker">Κατάλογος φθινοπώρου</span><h2>Τι μαγειρεύουμε αυτή την εποχή</h2><p>Οι τιμές περιλαμβάνουν ΦΠΑ. Ενημερώστε μας για αλλεργίες πριν παραγγείλετε.</p></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="menu" id="menuList" role="tabpanel"></div>
+  </div>
+</section>
+
+<div class="band" id="about">
+  <div class="wrap">
+    <div><h3>Ψάρι της ημέρας</h3><p>Ό,τι φέρει το καΐκι το πρωί από τον Αργολικό. Ρωτήστε τον σερβιτόρο τι έχουμε σήμερα.</p></div>
+    <div><h3>Κρασιά Νεμέας</h3><p>Αγιωργίτικο και Μοσχοφίλερο από μικρά οινοποιεία, σε ποτήρι, καράφα ή φιάλη.</p></div>
+    <div><h3>Αυλή όλο τον χρόνο</h3><p>Τέντα και θερμάστρες για τον χειμώνα, σκιά από τη μουριά για το καλοκαίρι.</p></div>
+  </div>
+</div>
+
+<section class="block" id="visit">
+  <div class="wrap visit">
+    <div>
+      <div class="head"><span class="kicker">Επίσκεψη</span><h2>Ωράριο και διεύθυνση</h2></div>
+      <table class="hours" id="hours">
+        <tr data-d="1"><td>Δευτέρα</td><td>18:00 – 00:30</td></tr>
+        <tr data-d="2"><td>Τρίτη</td><td>Κλειστά</td></tr>
+        <tr data-d="3"><td>Τετάρτη</td><td>12:00 – 00:30</td></tr>
+        <tr data-d="4"><td>Πέμπτη</td><td>12:00 – 00:30</td></tr>
+        <tr data-d="5"><td>Παρασκευή</td><td>12:00 – 01:30</td></tr>
+        <tr data-d="6"><td>Σάββατο</td><td>12:00 – 01:30</td></tr>
+        <tr data-d="0"><td>Κυριακή</td><td>12:00 – 23:00</td></tr>
+      </table>
+      <div class="addr"><b>Οδός Παλαιών Πυλών 12, Ναύπλιο 211 00</b><span>Δύο στενά από την πλατεία Συντάγματος. Δημόσιο πάρκινγκ στο λιμάνι, 4 λεπτά με τα πόδια.</span><span>info@lithari.example · 27520 00000</span></div>
+    </div>
+    <div class="card">
+      <h3>Κλείστε τραπέζι</h3>
+      <p>Για παρέες πάνω από 8 ατόμων, τηλεφωνήστε μας.</p>
+      <form class="res" id="resForm" novalidate>
+        <label>Όνομα<input id="r-name" required autocomplete="name"></label>
+        <label>Τηλέφωνο<input id="r-phone" type="tel" required autocomplete="tel"></label>
+        <label>Ημερομηνία<input id="r-date" type="date" required></label>
+        <label>Ώρα<select id="r-time"><option>13:00</option><option>14:30</option><option>19:30</option><option selected>21:00</option><option>22:30</option></select></label>
+        <label>Άτομα<select id="r-ppl"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></label>
+        <label>Θέση<select id="r-seat"><option>Αυλή</option><option>Μέσα</option><option>Όπου υπάρχει</option></select></label>
+        <label class="full">Σημειώσεις<textarea id="r-notes" rows="2" placeholder="Αλλεργίες, γενέθλια, καρεκλάκι μωρού"></textarea></label>
+        <button class="btn solid" type="submit">Αποστολή κράτησης</button>
+        <p class="msg" id="resMsg" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© 2026 Λιθάρι · Φανταστική επιχείρηση για επίδειξη σχεδίασης</span><span>Instagram · Facebook</span></div></footer>
+
+<script>
+(function(){
+  const MENU={
+    "Ορεκτικά":[
+      ["Φάβα Φενεού","με κάπαρη, κρεμμύδι και λάδι Κορωνέικης",6.5,"νηστίσιμο"],
+      ["Χωριάτικη","ντομάτα, αγγούρι, πιπεριά, κρίταμο, φέτα Αργολίδας",9],
+      ["Ταραμοσαλάτα","λευκός ταραμάς με ψωμί από ξυλόφουρνο",6],
+      ["Ντάκος","κριθαροκουλούρα, ντομάτα τριμμένη, μυζήθρα",7.5],
+      ["Κολοκυθοκεφτέδες","με γιαούρτι και δυόσμο",7,"χορτοφαγικό"],
+      ["Σαγανάκι κεφαλογραβιέρα","με μέλι θυμαρίσιο και σουσάμι",8.5]
+    ],
+    "Θάλασσα":[
+      ["Σαρδέλες σχάρας","με λεμόνι και ρίγανη",9.5],
+      ["Χταπόδι στα κάρβουνα","με φάβα και καραμελωμένα κρεμμύδια",15],
+      ["Καλαμαράκια τηγανητά","με σκορδαλιά",11],
+      ["Γαρίδες σαγανάκι","ντομάτα, φέτα, ούζο",16.5],
+      ["Ψάρι ημέρας","ανά κιλό, ρωτήστε μας",48]
+    ],
+    "Κυρίως":[
+      ["Μοσχαράκι κοκκινιστό","με χυλοπίτες της γιαγιάς",14],
+      ["Κοντοσούβλι","χοιρινό λαιμό, πίτα, τζατζίκι",13],
+      ["Γεμιστά","ντομάτες και πιπεριές με ρύζι, στον φούρνο",10,"νηστίσιμο"],
+      ["Κεφτεδάκια","με σάλτσα ντομάτας και πατάτες φούρνου",11.5]
+    ],
+    "Γλυκά":[
+      ["Γαλακτομπούρεκο","ζεστό, με σιρόπι πορτοκάλι",6],
+      ["Γιαούρτι με μέλι","και καρύδια",5],
+      ["Χαλβάς σιμιγδαλένιος","με κανέλα",4.5,"νηστίσιμο"]
+    ],
+    "Ποτά":[
+      ["Αγιωργίτικο βαρελίσιο","καράφα 500 ml",9],
+      ["Μοσχοφίλερο","ποτήρι",5.5],
+      ["Τσίπουρο χωρίς γλυκάνισο","καραφάκι 200 ml",7],
+      ["Μπύρα μικροζυθοποιίας","Pilsner 330 ml",5],
+      ["Λεμονάδα σπιτική","με δυόσμο",3.5]
+    ]
+  };
+  const tabs=document.getElementById('tabs'), list=document.getElementById('menuList');
+  const fmt=n=>n.toFixed(2).replace('.',',')+' €';
+  const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  function show(cat){
+    [...tabs.children].forEach(b=>b.setAttribute('aria-selected',b.dataset.c===cat));
+    list.innerHTML=MENU[cat].map(([n,d,p,t])=>`<div class="dish"><h3>${esc(n)}${t?`<span class="tag">${t}</span>`:''}</h3><span class="price">${fmt(p)}</span><p>${esc(d)}</p></div>`).join('');
+  }
+  Object.keys(MENU).forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.role='tab';b.textContent=c;b.dataset.c=c;b.onclick=()=>show(c);tabs.appendChild(b)});
+  show("Ορεκτικά");
+
+  const today=new Date().getDay();
+  document.querySelector(`#hours tr[data-d="${today}"]`)?.classList.add('today');
+
+  const date=document.getElementById('r-date');
+  const iso=new Date().toISOString().slice(0,10); date.min=iso; date.value=iso;
+  document.getElementById('resForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const n=document.getElementById('r-name').value.trim(), ph=document.getElementById('r-phone').value.trim(), msg=document.getElementById('resMsg');
+    const d=new Date(date.value+'T12:00');
+    if(!n||ph.replace(/\D/g,'').length<10){msg.textContent='Συμπληρώστε όνομα και τηλέφωνο 10 ψηφίων.';return}
+    if(d.getDay()===2){msg.textContent='Την Τρίτη είμαστε κλειστά. Διαλέξτε άλλη μέρα.';return}
+    const ds=d.toLocaleDateString('el-GR',{weekday:'long',day:'numeric',month:'long'});
+    msg.textContent=`Ευχαριστούμε, ${n.split(' ')[0]}. Κράτηση για ${document.getElementById('r-ppl').value} άτομα, ${ds} στις ${document.getElementById('r-time').value}. (Demo φόρμα, δεν στέλνεται πουθενά.)`;
+  });
+})();
+</script>
+</body>
+</html>
